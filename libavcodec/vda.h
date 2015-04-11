@@ -143,6 +143,13 @@ int ff_vda_destroy_decoder(struct vda_context *vda_ctx);
  * av_vda_alloc_context() and freed with av_free().
  */
 typedef struct AVVDAContext {
+    // Class for private options
+    const AVClass *class;
+
+    // CVPixelBuffer Format Type that VDA will use for decoded frames; set by
+    // a private option
+    OSType cv_pix_fmt_type;
+
     /**
      * VDA decoder object. Created and freed by the caller.
      */
@@ -179,6 +186,17 @@ AVVDAContext *av_vda_alloc_context(void);
  * @return >= 0 on success, a negative AVERROR code on failure
  */
 int av_vda_default_init(AVCodecContext *avctx);
+
+/**
+ * This is a convenience function that sets up the VDA context using an
+ * internal implementation.
+ *
+ * @param avctx the corresponding codec context
+ * @param vdactx the VDA context to use
+ *
+ * @return >= 0 on success, a negative AVERROR code on failure
+ */
+int av_vda_default_init2(AVCodecContext *avctx, AVVDAContext *vdactx);
 
 /**
  * This function must be called to free the VDA context initialized with

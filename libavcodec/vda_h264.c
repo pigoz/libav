@@ -24,6 +24,7 @@
 #include <CoreFoundation/CFData.h>
 #include <CoreFoundation/CFString.h>
 
+#include "libavutil/opt.h"
 #include "libavutil/avutil.h"
 #include "h264.h"
 #include "internal.h"
@@ -380,7 +381,9 @@ int ff_vda_default_init(AVCodecContext *avctx)
     CFMutableDictionaryRef buffer_attributes;
     CFMutableDictionaryRef io_surface_properties;
     CFNumberRef cv_pix_fmt;
-    int32_t fmt = 'avc1', pix_fmt = kCVPixelFormatType_422YpCbCr8;
+    int32_t fmt = 'avc1';
+    int64_t pix_fmt;
+    av_opt_get_int(vda_ctx, "cv_pix_fmt_type", 0, &pix_fmt);
 
     // kCVPixelFormatType_420YpCbCr8Planar;
 
